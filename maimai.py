@@ -1,4 +1,4 @@
-#该函数在/libraries/maimai_best_40.py下有，但是数值不对，需要修改
+'''#最新b50插件下重写了，不再需要这部分了
 def computeRa(ds: float, achievement:float) -> int:
     baseRa = 14.0
     if achievement < 50:
@@ -29,8 +29,8 @@ def computeRa(ds: float, achievement:float) -> int:
         baseRa = 13.5
 
     return math.floor(ds * (min(100.5, achievement) / 100) * baseRa)
-
-
+'''
+#当第三个参数传True时新版computeRa返回的是SP分数
 @sv.on_prefix('定数查分')
 async def dscf(bot, ev: CQEvent):
     kw = ev.message.extract_plain_text().strip()
@@ -46,17 +46,17 @@ async def dscf(bot, ev: CQEvent):
         try:
             ds = float(arr[0])
             msg += '歌曲定数' + arr[0] + '的各达成率对应底分为:\n'
-            msg += 'SSS+: ' + str(computeRa(ds, 100.5)) + '\n'
-            msg += 'SSSmax: ' + str(computeRa(ds, 100.4999)) + ', '
-            msg += 'min: ' + str(computeRa(ds, 100.0)) + '\n'
-            msg += 'SS+max: ' + str(computeRa(ds, 99.9999)) + ', '
-            msg += 'min: ' + str(computeRa(ds, 99.5000)) + '\n'
-            msg += 'SSmax: ' + str(computeRa(ds, 99.4999)) + ', '
-            msg += 'min: ' + str(computeRa(ds, 99.0000)) + '\n'
-            msg += 'S+max: ' + str(computeRa(ds, 98.9999)) + ', '
-            msg += 'min: ' + str(computeRa(ds, 98.0000)) + '\n'
-            msg += 'Smax: ' + str(computeRa(ds, 97.9999)) + ', '
-            msg += 'min: ' + str(computeRa(ds, 97.0000))
+            msg += 'SSS+: ' + str(computeRa(ds, 100.5, False)) + '\n'
+            msg += 'SSSmax: ' + str(computeRa(ds, 100.4999, False)) + ', '
+            msg += 'min: ' + str(computeRa(ds, 100.0, False)) + '\n'
+            msg += 'SS+max: ' + str(computeRa(ds, 99.9999, False)) + ', '
+            msg += 'min: ' + str(computeRa(ds, 99.5000, False)) + '\n'
+            msg += 'SSmax: ' + str(computeRa(ds, 99.4999, False)) + ', '
+            msg += 'min: ' + str(computeRa(ds, 99.0000, False)) + '\n'
+            msg += 'S+max: ' + str(computeRa(ds, 98.9999, False)) + ', '
+            msg += 'min: ' + str(computeRa(ds, 98.0000, False)) + '\n'
+            msg += 'Smax: ' + str(computeRa(ds, 97.9999, False)) + ', '
+            msg += 'min: ' + str(computeRa(ds, 97.0000, False))
             await bot.send(ev, msg, at_sender=True)
         except Exception as e:
             msg = '计算错误'
@@ -67,7 +67,7 @@ async def dscf(bot, ev: CQEvent):
             ds = float(arr[0])
             achievement = float(arr[1])
             msg += '歌曲定数' + arr[0] + '达成率' + arr[1] + '对应分数为:\n'
-            msg += str(computeRa(ds, achievement))
+            msg += str(computeRa(ds, achievement, False))
 
             await bot.send(ev, msg, at_sender=True)
         except Exception as e:
@@ -89,12 +89,12 @@ async def query_chart_score(bot, ev:CQEvent):
         level = music['level'][level_index]
         result = f'''{level_name[level_index]} {level}({ds})
 对应达成率底分为：
-SSS+: {computeRa(ds, 100.5)}
-SSSmax: {computeRa(ds, 100.4999)}, min: {computeRa(ds, 100.000)}
-SS+max: {computeRa(ds, 99.9999)}, min: {computeRa(ds, 99.5)}
-SSmax: {computeRa(ds, 99.4999)}, min: {computeRa(ds, 99.0)}
-S+max: {computeRa(ds, 98.9999)}, min: {computeRa(ds, 98.0)}
-Smax: {computeRa(ds, 97.9999)}, min: {computeRa(ds, 97.0)}'''
+SSS+: {computeRa(ds, 100.5, False)}
+SSSmax: {computeRa(ds, 100.4999, False)}, min: {computeRa(ds, 100.000, False)}
+SS+max: {computeRa(ds, 99.9999, False)}, min: {computeRa(ds, 99.5, False)}
+SSmax: {computeRa(ds, 99.4999, False)}, min: {computeRa(ds, 99.0, False)}
+S+max: {computeRa(ds, 98.9999, False)}, min: {computeRa(ds, 98.0, False)}
+Smax: {computeRa(ds, 97.9999, False)}, min: {computeRa(ds, 97.0, False)}'''
 
 
         msg = f'''
